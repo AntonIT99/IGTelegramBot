@@ -68,6 +68,7 @@ def get_user_data(username: str) -> (Optional[str], Optional[Author]):
 # return a dict of InstagramPost from the data of the latest images available from the specified Author
 def get_posts_from_instagram(user_id: str, author: Author) -> dict:
     images = {}
+    json = {}
 
     try:
         logging.info("[{}]: fetching latest images...".format(author.username))
@@ -78,6 +79,8 @@ def get_posts_from_instagram(user_id: str, author: Author) -> dict:
         step = len(json["data"]["user"]["edge_owner_to_timeline_media"]["edges"])
     except Exception:
         traceback.print_exc()
+        if "message" in json:
+            print(json["message"])
         return images
 
     fetched_images = 0
